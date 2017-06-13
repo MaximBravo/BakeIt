@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class RecipesActivity extends AppCompatActivity {
@@ -33,13 +32,13 @@ public class RecipesActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayList<Recipe> getDummyDataSet() {
-        //dummy Recipe data
-        ArrayList<Recipe> dummyRecipesData = new ArrayList<>();
-        dummyRecipesData.add(new Recipe("Cookies", "Servings: 20"));
-        dummyRecipesData.add(new Recipe("Brownies", "Servings: 10"));
-        dummyRecipesData.add(new Recipe("Apple Pie", "Servings: 1"));
-
-        return dummyRecipesData;
-    }
+//    private ArrayList<Recipe> getDummyDataSet() {
+//        //dummy Recipe data
+//        ArrayList<Recipe> dummyRecipesData = new ArrayList<>();
+//        dummyRecipesData.add(new Recipe("Cookies", "Servings: 20"));
+//        dummyRecipesData.add(new Recipe("Brownies", "Servings: 10"));
+//        dummyRecipesData.add(new Recipe("Apple Pie", "Servings: 1"));
+//
+//        return dummyRecipesData;
+//    }
 }

@@ -24,13 +24,38 @@ public class BakingUtils {
     }
 
     private static void fillDataFromJson(String json) {
+        recipes.clear();
         try {
             JSONArray recipesArray = new JSONArray(json);
             for(int i = 0; i < recipesArray.length(); i++) {
                 JSONObject recipeJson = recipesArray.getJSONObject(i);
                 String recipeName = recipeJson.getString("name");
                 String recipeDescription = "Servings: " + recipeJson.getInt("servings");
-                Recipe recipe = new Recipe(recipeName, recipeDescription);
+
+                JSONArray ingredientsJson = recipeJson.getJSONArray("ingredients");
+                ArrayList<Ingredient> ingredients = new ArrayList<>();
+                for(int k = 0; k < ingredientsJson.length(); k++) {
+                    JSONObject ingredientJson = ingredientsJson.getJSONObject(k);
+                    int quantity = ingredientJson.getInt("quantity");
+                    String measure = ingredientJson.getString("measure");
+                    String ingredient = ingredientJson.getString("ingredient");
+                    Ingredient currentIngredient = new Ingredient(quantity, measure, ingredient);
+                    ingredients.add(currentIngredient);
+                }
+
+                JSONArray stepsJson = recipeJson.getJSONArray("steps");
+                ArrayList<Step> steps = new ArrayList<>();
+                for (int k = 0; k < stepsJson.length(); k++) {
+                    JSONObject stepJson = stepsJson.getJSONObject(k);
+                    int id = stepJson.getInt("id");
+                    String shortDescription = stepJson.getString("shortDescription");
+                    String description = stepJson.getString("description");
+                    String videoURL = stepJson.getString("videoURL");
+                    Step currentStep = new Step(id, shortDescription, description, videoURL);
+                    steps.add(currentStep);
+                }
+
+                Recipe recipe = new Recipe(recipeName, recipeDescription, ingredients, steps);
                 recipes.add(recipe);
             }
         } catch (JSONException e) {

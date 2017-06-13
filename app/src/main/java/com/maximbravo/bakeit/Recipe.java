@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import static android.R.attr.name;
 
 /**
@@ -18,17 +20,19 @@ import static android.R.attr.name;
 public class Recipe {
     private String recipeName;
     private String recipeDescription;
+    private ArrayList<Ingredient> ingredients;
+    private ArrayList<Step> steps;
 
     //dummy testing purposes
-    public Recipe(String name, String description) {
+    public Recipe(String name, String description, ArrayList<Ingredient> ingredients, ArrayList<Step> steps) {
         this.recipeName = name;
         this.recipeDescription = description;
+        this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     //returns a view that represents one Recipe
     public View getView(Context context){
-
-
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         LinearLayout recipeView = (LinearLayout) layoutInflater.inflate(R.layout.recipe_list_item, null);
 
@@ -37,31 +41,6 @@ public class Recipe {
 
         recipeNameView.setText(recipeName);
         recipeDescriptionView.setText(recipeDescription);
-
-//        recipeView.addView(recipeNameView, 0);
-//        recipeView.addView(recipeDescriptionView, 1);
-
-
-//        TextView recipeNameView = new TextView(context);
-//        TextView recipeDescriptionView = new TextView(context);
-//
-//        recipeNameView.setText(recipeName);
-//        recipeDescriptionView.setText(recipeDescription);
-//
-//        LinearLayout recipeView = new LinearLayout(context);
-//        recipeView.setOrientation(LinearLayout.VERTICAL);
-//
-//
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//
-//        layoutParams.setMargins(30, 30, 30, 30);
-//
-//        recipeView.addView(recipeNameView);
-//        recipeView.addView(recipeDescriptionView);
-//        recipeView.setLayoutParams(layoutParams);
-//        recipeView.setBackgroundColor(Color.DKGRAY);
-//        ViewCompat.setElevation(recipeView, 10);
 
         return recipeView;
     }
