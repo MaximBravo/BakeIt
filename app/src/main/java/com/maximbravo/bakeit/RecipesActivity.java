@@ -22,7 +22,7 @@ public class RecipesActivity extends AppCompatActivity {
     private void initializeGridView() {
         //Get gridview for main recipes screen
         GridView recipes = (GridView) findViewById(R.id.recipes_list);
-        recipes.setAdapter(new RecipeAdapter(this, getDummyDataSet()));
+        recipes.setAdapter(new RecipeAdapter(this, BakingUtils.getRecipes(this)));
 
         recipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
