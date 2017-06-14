@@ -51,6 +51,7 @@ public class StepFragment extends Fragment {
     public void setPosition(Recipe recipe, int position){
         this.position = position;
         this.recipe = recipe;
+        BakingUtils.currentRecipe = recipe;
     }
 
     @Override
@@ -72,6 +73,13 @@ public class StepFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_step, container, false);
 
+        if(recipe == null) {
+            if(savedInstanceState != null) {
+
+                recipe = BakingUtils.currentRecipe;
+                position = savedInstanceState.getInt("stepNumber", 0);
+            }
+        }
         Step currentStep = recipe.getSteps().get(position);
 
 
@@ -111,21 +119,28 @@ public class StepFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        BakingUtils.currentRecipe = recipe;
+        outState.putInt("stepNumber", position);
+    }
+
     private void initializePlayer(View rootView, String videoURL, String displayName) {
         videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
 
         videoView.setResizeMode(SuperAspectRatioFrameLayout.RESIZE_MODE_FIT);
-        videoView.setOrientationListener(new ExoVideoPlaybackControlView.OrientationListener() {
-            @Override
-            public void onOrientationChange(@ExoVideoPlaybackControlView.SensorOrientationType int orientation) {
-
-                if(orientation == SENSOR_PORTRAIT){
-                    changeToPortrait();
-                }else if(orientation == SENSOR_LANDSCAPE){
-                    changeToLandscape();
-                }
-            }
-        });
+//        videoView.setOrientationListener(new ExoVideoPlaybackControlView.OrientationListener() {
+//            @Override
+//            public void onOrientationChange(@ExoVideoPlaybackControlView.SensorOrientationType int orientation) {
+//
+//                if(orientation == SENSOR_PORTRAIT){
+//                    changeToPortrait();
+//                }else if(orientation == SENSOR_LANDSCAPE){
+//                    changeToLandscape();
+//                }
+//            }
+//        });
         if(videoURL.length() != 0) {
             SimpleMediaSource mediaSource = new SimpleMediaSource(videoURL);
             mediaSource.setDisplayName(displayName);

@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 public class BakingUtils {
-
+    public static Recipe currentRecipe;
     public static ArrayList<Recipe> recipes = new ArrayList<>();
     public static ArrayList<Recipe> getRecipes(Context context){
         String json = getJsonString(context, "baking.json");
