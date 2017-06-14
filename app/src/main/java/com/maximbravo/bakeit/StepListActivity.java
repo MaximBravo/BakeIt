@@ -61,6 +61,7 @@ public class StepListActivity extends AppCompatActivity implements
         } else {
             Intent intent = new Intent(this, StepActivity.class);
             intent.putExtra("stepNumber", position);
+            BakingUtils.currentStep = BakingUtils.getRecipeAt(recipePosition).getSteps().get(position);
             intent.putExtra("recipeNumber", this.recipePosition);
             startActivity(intent);
         }

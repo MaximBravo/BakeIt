@@ -17,7 +17,7 @@ public class RecipesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipes);
         initializeGridView();
 
-        if( Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+        if(findViewById(R.id.tablet_master_list_layout) != null) {
             BakingUtils.twopanemode = true;
         } else {
             BakingUtils.twopanemode = false;
@@ -27,8 +27,8 @@ public class RecipesActivity extends AppCompatActivity {
     private void initializeGridView() {
         //Get gridview for main recipes screen
         GridView recipes = (GridView) findViewById(R.id.recipes_list);
-        if(!BakingUtils.twopanemode) {
-            recipes.setNumColumns(1);
+        if(BakingUtils.twopanemode) {
+            recipes.setNumColumns(2);
         }
         recipes.setAdapter(new RecipeAdapter(this, BakingUtils.getRecipes(this)));
 

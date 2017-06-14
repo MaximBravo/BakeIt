@@ -72,16 +72,12 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_step, container, false);
+        recipe = BakingUtils.currentRecipe;
 
-        if(recipe == null) {
-            if(savedInstanceState != null) {
-
-                recipe = BakingUtils.currentRecipe;
-                position = savedInstanceState.getInt("stepNumber", 0);
-            }
+        Step currentStep = BakingUtils.currentStep;
+        if(currentStep == null) {
+            currentStep = recipe.getSteps().get(position);
         }
-        Step currentStep = recipe.getSteps().get(position);
-
 
 
         initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
@@ -125,14 +121,22 @@ public class StepFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
         BakingUtils.currentRecipe = recipe;
-        outState.putInt("stepNumber", position);
+        BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        release();
+        if(BakingUtils.twopanemode) {
+            release();
+        }
     }
 
     private void initializePlayer(View rootView, String videoURL, String displayName) {

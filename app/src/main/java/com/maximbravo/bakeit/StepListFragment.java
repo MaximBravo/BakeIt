@@ -60,19 +60,21 @@ public class StepListFragment extends Fragment {
             gridView.setSelection(lastSelected);
             unselectAllBut(gridView, lastSelected);
         }
+
+        if(rootView.findViewById(R.id.recipe_title) != null) {
+            TextView title = (TextView) rootView.findViewById(R.id.recipe_title);
+            title.setText(StepListActivity.getCurrentRecipe().getRecipeName());
+        }
         StepListAdapter stepListAdapter = new StepListAdapter(getActivity(), StepListActivity.getCurrentRecipe());
 
         gridView.setAdapter(stepListAdapter);
 
-        if(!BakingUtils.twopanemode) {
-            TextView title = (TextView) rootView.findViewById(R.id.recipe_title);
-            title.setText(StepListActivity.getCurrentRecipe().getRecipeName());
-        }
+
         //add click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                unselectAllBut(gridView, position);
+                //unselectAllBut(gridView, position);
                 lastSelected = position;
                 //gridView.setSelection(position);
                 mCallback.onStepSelected(position);

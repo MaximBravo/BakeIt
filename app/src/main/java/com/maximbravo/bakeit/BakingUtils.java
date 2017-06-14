@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class BakingUtils {
     public static Recipe currentRecipe;
     public static boolean twopanemode;
+    public static Step currentStep;
     public static ArrayList<Recipe> recipes = new ArrayList<>();
     public static ArrayList<Recipe> getRecipes(Context context){
         String json = getJsonString(context, "baking.json");
