@@ -1,13 +1,12 @@
 package com.maximbravo.bakeit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class RecipesActivity extends AppCompatActivity {
 
@@ -28,6 +27,9 @@ public class RecipesActivity extends AppCompatActivity {
                                     int position, long id) {
                 Toast.makeText(RecipesActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RecipesActivity.this, StepListActivity.class);
+                intent.putExtra("position", position);
+                startActivity(intent);
             }
         });
     }

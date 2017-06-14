@@ -44,4 +44,20 @@ public class Recipe {
 
         return recipeView;
     }
+
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public String getRecipeDescription() {
+        return recipeDescription;
+    }
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public ArrayList<Step> getSteps() {
+        return steps;
+    }
 }

@@ -77,4 +77,8 @@ public class BakingUtils {
         }
         return json;
     }
+
+    public static Recipe getRecipeAt(int position) {
+        return recipes.get(position);
+    }
 }
