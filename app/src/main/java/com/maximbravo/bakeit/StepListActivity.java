@@ -13,16 +13,17 @@ import android.widget.Toast;
 public class StepListActivity extends AppCompatActivity implements StepListFragment.OnStepClickListener {
     private static int recipePosition;
     private boolean twopanemode;
+
+    public static void setCurrentPosition(int currentPosition) {
+        recipePosition = currentPosition;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
 
-        Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("recipePosition")) {
-            int position = intent.getIntExtra("recipePosition", 0);
-            this.recipePosition = position;
-        }
+
     }
 
 

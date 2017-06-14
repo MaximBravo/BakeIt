@@ -28,8 +28,10 @@ public class RecipesActivity extends AppCompatActivity {
                 Toast.makeText(RecipesActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(RecipesActivity.this, StepListActivity.class);
-                intent.putExtra("position", position);
+
+                StepListActivity.setCurrentPosition(position);
                 startActivity(intent);
+
             }
         });
     }
