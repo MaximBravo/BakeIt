@@ -70,4 +70,3 @@
             app:srcCompat="@drawable/nextbutton" />
     </RelativeLayout>
 </LinearLayout>
-

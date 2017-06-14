@@ -27,6 +27,7 @@ public class StepListFragment extends Fragment {
     public StepListFragment() {
 
     }
+    private int lastSelected;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -52,21 +53,47 @@ public class StepListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_step_list, container, false);
 
-        GridView gridView = (GridView) rootView.findViewById(R.id.steps_list_view);
+        final GridView gridView = (GridView) rootView.findViewById(R.id.steps_list_view);
 
+        if(savedInstanceState != null) {
+            lastSelected = savedInstanceState.getInt("selectedPosition");
+            gridView.setSelection(lastSelected);
+            unselectAllBut(gridView, lastSelected);
+        }
         StepListAdapter stepListAdapter = new StepListAdapter(getActivity(), StepListActivity.getCurrentRecipe());
 
         gridView.setAdapter(stepListAdapter);
 
-        TextView title = (TextView) rootView.findViewById(R.id.recipe_title);
-        title.setText(StepListActivity.getCurrentRecipe().getRecipeName());
+        if(!BakingUtils.twopanemode) {
+            TextView title = (TextView) rootView.findViewById(R.id.recipe_title);
+            title.setText(StepListActivity.getCurrentRecipe().getRecipeName());
+        }
         //add click listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                unselectAllBut(gridView, position);
+                lastSelected = position;
+                //gridView.setSelection(position);
                 mCallback.onStepSelected(position);
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("selectedPosition", lastSelected);
+    }
+
+    private void unselectAllBut(GridView gridView, int position) {
+        for (int i = 0; i < gridView.getChildCount(); i++) {
+            if (i == position) {
+                gridView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.selected_background));
+            } else {
+                gridView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.recipe_color));
+            }
+        }
     }
 }

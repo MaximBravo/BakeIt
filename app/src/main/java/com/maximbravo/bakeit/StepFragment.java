@@ -89,31 +89,34 @@ public class StepFragment extends Fragment {
 
         TextView descriptionTextView = (TextView) rootView.findViewById(R.id.step_description);
         descriptionTextView.setText(currentStep.getDescription());
-        TextView shortDescriptionTextView = (TextView) rootView.findViewById(R.id.step_short_description);
-        if(currentStep.getShortDescription().length() > 18) {
-            shortDescriptionTextView.setTextSize(25);
+
+        if(!BakingUtils.twopanemode) {
+            TextView shortDescriptionTextView = (TextView) rootView.findViewById(R.id.step_short_description);
+            if(currentStep.getShortDescription().length() > 18) {
+                shortDescriptionTextView.setTextSize(25);
+            }
+            shortDescriptionTextView.setText(currentStep.getShortDescription());
+
+            FloatingActionButton next = (FloatingActionButton) rootView.findViewById(R.id.next_fab);
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    release();
+                    mCallbacks.onNextSelected(recipe, position);
+                }
+            });
+
+            FloatingActionButton prev = (FloatingActionButton) rootView.findViewById(R.id.prev_fab);
+            prev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // initializePlayer(rootView, "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4", "Little mouse");
+                    release();
+                    mCallbacks.onPrevSelected(recipe, position);
+
+                }
+            });
         }
-        shortDescriptionTextView.setText(currentStep.getShortDescription());
-
-        FloatingActionButton next = (FloatingActionButton) rootView.findViewById(R.id.next_fab);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                release();
-                mCallbacks.onNextSelected(recipe, position);
-            }
-        });
-
-        FloatingActionButton prev = (FloatingActionButton) rootView.findViewById(R.id.prev_fab);
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // initializePlayer(rootView, "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4", "Little mouse");
-                release();
-                mCallbacks.onPrevSelected(recipe, position);
-
-            }
-        });
 
 
         return rootView;
@@ -124,6 +127,12 @@ public class StepFragment extends Fragment {
         super.onSaveInstanceState(outState);
         BakingUtils.currentRecipe = recipe;
         outState.putInt("stepNumber", position);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        release();
     }
 
     private void initializePlayer(View rootView, String videoURL, String displayName) {
