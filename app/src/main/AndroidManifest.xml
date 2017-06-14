@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".StepListActivity" />
         <activity android:name=".StepActivity" />
+
+        <uses-permission android:name="android.permission.INTERNET" />
     </application>
 
 </manifest>

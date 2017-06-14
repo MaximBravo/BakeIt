@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class StepActivity extends AppCompatActivity implements StepFragment.OnFabSelected {
+    private boolean first = true;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,13 +20,13 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
         if(intent != null && intent.hasExtra("stepNumber")) {
             int recipeNumber = intent.getIntExtra("recipeNumber", 1);
             int position = intent.getIntExtra("stepNumber", 0);
-            addFragment(BakingUtils.getRecipeAt(recipeNumber), position, true);
+            addFragment(BakingUtils.getRecipeAt(recipeNumber), position);
         }
 
 
     }
 
-    public void addFragment(Recipe recipe, int position, boolean first){
+    public void addFragment(Recipe recipe, int position){
         StepFragment stepFragment = new StepFragment();
 
         stepFragment.setPosition(recipe, position);
@@ -36,6 +37,7 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
             fragmentManager.beginTransaction()
                     .add(R.id.step_container, stepFragment)
                     .commit();
+            first = false;
         } else {
             fragmentManager.beginTransaction()
                     .replace(R.id.step_container, stepFragment)
@@ -45,18 +47,18 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
     @Override
     public void onNextSelected(Recipe recipe, int stepPosition) {
         if(stepPosition == recipe.getSteps().size() - 1) {
-            addFragment(recipe, 0, false);
+            addFragment(recipe, 0);
         } else {
-            addFragment(recipe, stepPosition + 1, false);
+            addFragment(recipe, stepPosition + 1);
         }
     }
 
     @Override
     public void onPrevSelected(Recipe recipe, int currentPosition) {
         if(currentPosition == 0) {
-            addFragment(recipe, recipe.getSteps().size()-1, false);
+            addFragment(recipe, recipe.getSteps().size()-1);
         } else {
-            addFragment(recipe, currentPosition - 1, false);
+            addFragment(recipe, currentPosition - 1);
         }
     }
 }

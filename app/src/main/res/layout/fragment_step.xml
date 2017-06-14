@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:com.jarvanmo.exoplayerview.ui="http://schemas.android.com/tools"
     android:id="@+id/fragment_step"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+    <com.jarvanmo.exoplayerview.ui.ExoVideoView
         android:id="@+id/playerView"
         android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:useController="true"
+        app:resizeMode="fit"
         android:layout_margin="20dp"
         android:layout_weight="6" />
 
