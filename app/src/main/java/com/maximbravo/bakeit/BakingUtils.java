@@ -81,6 +81,9 @@ public class BakingUtils {
     }
 
     public static Recipe getRecipeAt(int position) {
+        if(recipes.size() == 0) {
+            return new Recipe("ERROR", "nbc", null, null);
+        }
         return recipes.get(position);
     }
 }

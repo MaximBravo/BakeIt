@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:id="@+id/steps_list_fragment"
-android:layout_width="match_parent"
-android:name="com.maximbravo.bakeit.StepListFragment"
-android:layout_height="match_parent">
+<FrameLayout
 
-</fragment>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/steps_list_container"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <!--<fragment-->
+    <!--android:orientation="vertical"-->
+    <!--android:id="@+id/steps_list_fragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--</fragment>-->
+</FrameLayout>

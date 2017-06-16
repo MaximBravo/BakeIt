@@ -26,4 +26,8 @@ class Ingredient {
     public String getIngredient() {
         return ingredient;
     }
+
+    public String toString(){
+        return quantity + " " + measure + " of " + ingredient;
+    }
 }

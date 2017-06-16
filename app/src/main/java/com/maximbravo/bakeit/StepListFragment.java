@@ -1,7 +1,7 @@
 package com.maximbravo.bakeit;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -61,10 +61,6 @@ public class StepListFragment extends Fragment {
             unselectAllBut(gridView, lastSelected);
         }
 
-        if(rootView.findViewById(R.id.recipe_title) != null) {
-            TextView title = (TextView) rootView.findViewById(R.id.recipe_title);
-            title.setText(StepListActivity.getCurrentRecipe().getRecipeName());
-        }
         StepListAdapter stepListAdapter = new StepListAdapter(getActivity(), StepListActivity.getCurrentRecipe());
 
         gridView.setAdapter(stepListAdapter);
@@ -77,7 +73,7 @@ public class StepListFragment extends Fragment {
                 //unselectAllBut(gridView, position);
                 lastSelected = position;
                 //gridView.setSelection(position);
-                mCallback.onStepSelected(position);
+                mCallback.onStepSelected(position-2);
             }
         });
         return rootView;

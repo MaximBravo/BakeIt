@@ -2,8 +2,10 @@ package com.maximbravo.bakeit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,6 +29,8 @@ public class StepListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
 
+        loadListFragment();
+
         Recipe current = BakingUtils.getRecipeAt(recipePosition);
         setTitle(current.getRecipeName());
         if(findViewById(R.id.tablet_master_list_layout) != null) {
@@ -36,34 +40,54 @@ public class StepListActivity extends AppCompatActivity implements
         }
     }
 
+
     private boolean first = true;
     public void onStepSelected(int position) {
-        Toast.makeText(this, "We are toasting from StepList Activity", position).show();
-        if(BakingUtils.twopanemode) {
-            StepFragment stepFragment = new StepFragment();
+        if (position >= 0) {
+            if (BakingUtils.twopanemode) {
 
-            stepFragment.setPosition(BakingUtils.getRecipeAt(this.recipePosition), position);
+                StepFragment stepFragment = new StepFragment();
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
+                stepFragment.setPosition(BakingUtils.getRecipeAt(this.recipePosition), position);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
 
 
-
-            if(first) {
-                fragmentManager.beginTransaction()
-                        .add(R.id.step_container, stepFragment)
-                        .commit();
-                first = false;
+                if (first) {
+                    fragmentManager.beginTransaction()
+                            .add(R.id.step_container, stepFragment)
+                            .commit();
+                    first = false;
+                } else {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.step_container, stepFragment)
+                            .commit();
+                }
             } else {
-                fragmentManager.beginTransaction()
-                        .replace(R.id.step_container, stepFragment)
-                        .commit();
+
+                Intent intent = new Intent(this, StepActivity.class);
+                intent.putExtra("stepNumber", position);
+                BakingUtils.currentStep = BakingUtils.getRecipeAt(recipePosition).getSteps().get(position);
+                intent.putExtra("recipeNumber", this.recipePosition);
+                startActivity(intent);
             }
+        }
+    }
+
+    private void loadListFragment() {
+        StepListFragment stepListFragment = new StepListFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if(Recipe.first) {
+            fragmentManager.beginTransaction()
+                    .add(R.id.steps_list_container, stepListFragment)
+                    .commit();
+            Recipe.first = false;
         } else {
-            Intent intent = new Intent(this, StepActivity.class);
-            intent.putExtra("stepNumber", position);
-            BakingUtils.currentStep = BakingUtils.getRecipeAt(recipePosition).getSteps().get(position);
-            intent.putExtra("recipeNumber", this.recipePosition);
-            startActivity(intent);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.steps_list_container, stepListFragment)
+                    .commit();
         }
     }
 
