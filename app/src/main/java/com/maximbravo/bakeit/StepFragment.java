@@ -31,6 +31,7 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_LANDSCAPE;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_PORTRAIT;
+import static com.maximbravo.bakeit.BakingUtils.currentStep;
 
 /**
  * Created by Kids on 6/13/2017.
@@ -50,12 +51,13 @@ public class StepFragment extends Fragment {
         public void onNextSelected(Recipe recipe, int stepPosition);
         public void onPrevSelected(Recipe recipe, int currentPosition);
     }
-
-    public void setPosition(Recipe recipe, int position){
-        this.position = position;
-        this.recipe = recipe;
-        BakingUtils.currentRecipe = recipe;
-    }
+//
+//    public void setPosition(Recipe recipe, int position){
+//        this.position = position;
+//        this.recipe = recipe;
+//        currentStep = BakingUtils.currentRecipe.getSteps().get(position);
+//        BakingUtils.currentRecipe = recipe;
+//    }
 
     @Override
     public void onAttach(Context context) {
@@ -76,12 +78,6 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_step, container, false);
-        recipe = BakingUtils.currentRecipe;
-
-        Step currentStep = BakingUtils.currentStep;
-        if(currentStep == null) {
-            currentStep = recipe.getSteps().get(position);
-        }
 
         if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE && !BakingUtils.twopanemode) {
             fullscreenmode = true;
@@ -105,7 +101,7 @@ public class StepFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         //release();
-                        mCallbacks.onNextSelected(recipe, position);
+                        mCallbacks.onNextSelected(recipe, currentStep.getId());
                     }
                 });
 
@@ -115,7 +111,7 @@ public class StepFragment extends Fragment {
                     public void onClick(View v) {
                         // initializePlayer(rootView, "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4", "Little mouse");
                         //release();
-                        mCallbacks.onPrevSelected(recipe, position);
+                        mCallbacks.onPrevSelected(recipe, currentStep.getId());
 
                     }
                 });
@@ -141,18 +137,18 @@ public class StepFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        BakingUtils.currentRecipe = recipe;
         if(videoView != null) {
             //release();
             videoView.pause();
         }
-        BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //release();
+        if(videoView != null) {
+            release();
+        }
     }
 
 
@@ -166,6 +162,8 @@ public class StepFragment extends Fragment {
 
             videoView.initSelfPlayer();
             videoView.play(mediaSource);
+        } else {
+            videoView.setVisibility(View.GONE);
         }
     }
     private void changeToPortrait() {

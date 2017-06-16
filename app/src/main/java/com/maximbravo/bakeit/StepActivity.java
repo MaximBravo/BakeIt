@@ -48,10 +48,11 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
     }
 
     public void addFragment(Recipe recipe, int position){
+        BakingUtils.currentRecipe = recipe;
+        BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
+
         StepFragment stepFragment = new StepFragment();
-
-        stepFragment.setPosition(recipe, position);
-
+        
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if(first) {

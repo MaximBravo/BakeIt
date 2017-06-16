@@ -45,10 +45,12 @@ public class StepListActivity extends AppCompatActivity implements
     public void onStepSelected(int position) {
         if (position >= 0) {
             if (BakingUtils.twopanemode) {
-
+                BakingUtils.currentRecipe = BakingUtils.getRecipeAt(this.recipePosition);
+                BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
                 StepFragment stepFragment = new StepFragment();
 
-                stepFragment.setPosition(BakingUtils.getRecipeAt(this.recipePosition), position);
+
+                //stepFragment.setPosition(BakingUtils.getRecipeAt(this.recipePosition), position);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
 

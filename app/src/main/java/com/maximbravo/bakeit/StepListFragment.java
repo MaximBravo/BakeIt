@@ -58,7 +58,7 @@ public class StepListFragment extends Fragment {
         if(savedInstanceState != null) {
             lastSelected = savedInstanceState.getInt("selectedPosition");
             gridView.setSelection(lastSelected);
-            unselectAllBut(gridView, lastSelected);
+            //unselectAllBut(gridView, lastSelected);
         }
 
         StepListAdapter stepListAdapter = new StepListAdapter(getActivity(), StepListActivity.getCurrentRecipe());
