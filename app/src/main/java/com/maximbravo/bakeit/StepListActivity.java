@@ -2,14 +2,9 @@ package com.maximbravo.bakeit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Toast;
 
 /**
  * Created by Kids on 6/13/2017.
@@ -98,12 +93,12 @@ public class StepListActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onNextSelected(Recipe recipe, int stepPosition) {
+    public void onNextSelected() {
         //nothing
     }
 
     @Override
-    public void onPrevSelected(Recipe recipe, int currentPosition) {
+    public void onPrevSelected() {
         //nothing
     }
 }

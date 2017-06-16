@@ -22,8 +22,8 @@ public class BakeItWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, RecipesActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-        views.setOnClickPendingIntent(R.id.cake_picture, pendingIntent);
-
+        views.setOnClickPendingIntent(R.id.ingredient_list, pendingIntent);
+        views.setTextViewText(R.id.ingredient_list, BakingUtils.getWidgetText());
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

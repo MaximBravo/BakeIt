@@ -31,6 +31,7 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_LANDSCAPE;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_PORTRAIT;
+import static com.maximbravo.bakeit.BakingUtils.currentRecipe;
 import static com.maximbravo.bakeit.BakingUtils.currentStep;
 
 /**
@@ -38,8 +39,6 @@ import static com.maximbravo.bakeit.BakingUtils.currentStep;
  */
 
 public class StepFragment extends Fragment {
-    private int position;
-    private Recipe recipe;
     private OnFabSelected mCallbacks;
 
     private ExoVideoView videoView;
@@ -48,16 +47,9 @@ public class StepFragment extends Fragment {
     }
 
     public interface OnFabSelected {
-        public void onNextSelected(Recipe recipe, int stepPosition);
-        public void onPrevSelected(Recipe recipe, int currentPosition);
+        void onNextSelected();
+        void onPrevSelected();
     }
-//
-//    public void setPosition(Recipe recipe, int position){
-//        this.position = position;
-//        this.recipe = recipe;
-//        currentStep = BakingUtils.currentRecipe.getSteps().get(position);
-//        BakingUtils.currentRecipe = recipe;
-//    }
 
     @Override
     public void onAttach(Context context) {
@@ -101,7 +93,7 @@ public class StepFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         //release();
-                        mCallbacks.onNextSelected(recipe, currentStep.getId());
+                        mCallbacks.onNextSelected();
                     }
                 });
 
@@ -111,7 +103,7 @@ public class StepFragment extends Fragment {
                     public void onClick(View v) {
                         // initializePlayer(rootView, "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4", "Little mouse");
                         //release();
-                        mCallbacks.onPrevSelected(recipe, currentStep.getId());
+                        mCallbacks.onPrevSelected();
 
                     }
                 });
@@ -128,11 +120,6 @@ public class StepFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-    }
 
     @Override
     public void onPause() {
@@ -166,30 +153,10 @@ public class StepFragment extends Fragment {
             videoView.setVisibility(View.GONE);
         }
     }
-    private void changeToPortrait() {
 
-        WindowManager.LayoutParams attr = getActivity().getWindow().getAttributes();
-        attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Window window = getActivity().getWindow();
-        window.setAttributes(attr);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-    }
-
-
-    private void changeToLandscape() {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        Window window = getActivity().getWindow();
-        window.setAttributes(lp);
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
-    }
     private void release() {
         videoView.releaseSelfPlayer();
         videoView.invalidate();
         videoView = null;
-
     }
-
 }

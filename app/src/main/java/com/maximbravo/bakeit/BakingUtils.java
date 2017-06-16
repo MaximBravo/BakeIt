@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 /**
  * Created by Kids on 6/12/2017.
  */
@@ -88,5 +90,18 @@ public class BakingUtils {
             return new Recipe("ERROR", "nbc", null, null);
         }
         return recipes.get(position);
+    }
+
+    public static String getWidgetText() {
+        Recipe widgetRecipe = currentRecipe;
+        if(widgetRecipe == null) {
+            widgetRecipe = recipes.get(0);
+        }
+        String ingridientsString = widgetRecipe.getRecipeName() + "\n";
+        ArrayList<Ingredient> currentIngredients = widgetRecipe.getIngredients();
+        for(int i = 0; i < currentIngredients.size(); i++) {
+            ingridientsString += "" + (i+1) + ") " + currentIngredients.get(i).toString() + "\n";
+        }
+        return ingridientsString;
     }
 }

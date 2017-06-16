@@ -6,10 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -37,22 +35,18 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
             actionBar.hide();
         }
 
-        Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("stepNumber")) {
-            int recipeNumber = intent.getIntExtra("recipeNumber", 1);
-            int position = intent.getIntExtra("stepNumber", 0);
-            addFragment(BakingUtils.getRecipeAt(recipeNumber), position);
-        }
+
+        addFragment(BakingUtils.currentStep.getId());
+
 
 
     }
 
-    public void addFragment(Recipe recipe, int position){
-        BakingUtils.currentRecipe = recipe;
+    public void addFragment(int position){
         BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
 
         StepFragment stepFragment = new StepFragment();
-        
+
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if(first) {
@@ -67,20 +61,20 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
         }
     }
     @Override
-    public void onNextSelected(Recipe recipe, int stepPosition) {
-        if(stepPosition == recipe.getSteps().size() - 1) {
-            addFragment(recipe, 0);
+    public void onNextSelected() {
+        if(BakingUtils.currentStep.getId() == BakingUtils.currentRecipe.getSteps().size() - 1) {
+            addFragment(0);
         } else {
-            addFragment(recipe, stepPosition + 1);
+            addFragment(BakingUtils.currentStep.getId() + 1);
         }
     }
 
     @Override
-    public void onPrevSelected(Recipe recipe, int currentPosition) {
-        if(currentPosition == 0) {
-            addFragment(recipe, recipe.getSteps().size()-1);
+    public void onPrevSelected() {
+        if(BakingUtils.currentStep.getId() == 0) {
+            addFragment(BakingUtils.currentRecipe.getSteps().size() - 1);
         } else {
-            addFragment(recipe, currentPosition - 1);
+            addFragment(BakingUtils.currentStep.getId() - 1);
         }
     }
 }

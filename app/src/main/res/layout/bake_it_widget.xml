@@ -3,11 +3,13 @@
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin">
 
-    <ImageView
-        android:id="@+id/cake_picture"
+    <TextView
+        android:background="@color/selected_background"
+        android:id="@+id/ingredient_list"
         android:layout_width="match_parent"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         android:layout_height="match_parent"
-        android:src="@drawable/cake"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
       />
