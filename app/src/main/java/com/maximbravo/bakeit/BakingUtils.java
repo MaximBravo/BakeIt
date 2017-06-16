@@ -93,15 +93,19 @@ public class BakingUtils {
     }
 
     public static String getWidgetText() {
-        Recipe widgetRecipe = currentRecipe;
-        if(widgetRecipe == null) {
-            widgetRecipe = recipes.get(0);
+        if(recipes == null || recipes.size() == 0) {
+            return "Click here to go to BakeIt App";
+        } else {
+            Recipe widgetRecipe = currentRecipe;
+            if (widgetRecipe == null) {
+                widgetRecipe = recipes.get(0);
+            }
+            String ingridientsString = widgetRecipe.getRecipeName() + "\n";
+            ArrayList<Ingredient> currentIngredients = widgetRecipe.getIngredients();
+            for (int i = 0; i < currentIngredients.size(); i++) {
+                ingridientsString += "" + (i + 1) + ") " + currentIngredients.get(i).toString() + "\n";
+            }
+            return ingridientsString;
         }
-        String ingridientsString = widgetRecipe.getRecipeName() + "\n";
-        ArrayList<Ingredient> currentIngredients = widgetRecipe.getIngredients();
-        for(int i = 0; i < currentIngredients.size(); i++) {
-            ingridientsString += "" + (i+1) + ") " + currentIngredients.get(i).toString() + "\n";
-        }
-        return ingridientsString;
     }
 }
