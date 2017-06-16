@@ -83,18 +83,10 @@ public class StepFragment extends Fragment {
             currentStep = recipe.getSteps().get(position);
         }
 
-        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE) {
-
-            if(videoView == null) {
-//                final Step finalCurrentStep = currentStep;
-//                Runnable runnable = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        initializePlayer(rootView, finalCurrentStep.getVideoURL(), finalCurrentStep.getShortDescription());
-//                    }
-//                };
-//                new Thread(runnable).start();
-            }
+        if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE && !BakingUtils.twopanemode) {
+            fullscreenmode = true;
+        } else {
+            fullscreenmode = false;
         }
 
         if(!fullscreenmode) {
@@ -127,12 +119,14 @@ public class StepFragment extends Fragment {
 
                     }
                 });
-                if(videoView == null) {
-                    initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
-                }
+
             }
 
 
+        }
+
+        if(videoView == null) {
+            initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
         }
 
         return rootView;
@@ -149,7 +143,8 @@ public class StepFragment extends Fragment {
         super.onPause();
         BakingUtils.currentRecipe = recipe;
         if(videoView != null) {
-            release();
+            //release();
+            videoView.pause();
         }
         BakingUtils.currentStep = BakingUtils.currentRecipe.getSteps().get(position);
     }

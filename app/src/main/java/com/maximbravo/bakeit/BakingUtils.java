@@ -53,6 +53,9 @@ public class BakingUtils {
                     String shortDescription = stepJson.getString("shortDescription");
                     String description = stepJson.getString("description");
                     String videoURL = stepJson.getString("videoURL");
+                    if(videoURL.length() == 0) {
+                        videoURL = stepJson.getString("thumbnailURL");
+                    }
                     Step currentStep = new Step(id, shortDescription, description, videoURL);
                     steps.add(currentStep);
                 }
