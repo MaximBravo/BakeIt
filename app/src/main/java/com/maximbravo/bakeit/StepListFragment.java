@@ -70,9 +70,9 @@ public class StepListFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //unselectAllBut(gridView, position);
+//                unselectAllBut(gridView, position);
                 lastSelected = position;
-                //gridView.setSelection(position);
+
                 mCallback.onStepSelected(position-2);
             }
         });
@@ -86,7 +86,8 @@ public class StepListFragment extends Fragment {
     }
 
     private void unselectAllBut(GridView gridView, int position) {
-        for (int i = 0; i < gridView.getChildCount(); i++) {
+        int total = gridView.getChildCount();
+        for (int i = 0; i < total; i++) {
             if (i == position) {
                 gridView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.selected_background));
             } else {

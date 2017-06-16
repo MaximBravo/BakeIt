@@ -7,6 +7,7 @@
     <GridView
         android:id="@+id/steps_list_view"
         android:numColumns="1"
+        android:listSelector="@drawable/list_selector"
         android:layout_margin="10dp"
         android:verticalSpacing="10dp"
         android:layout_width="match_parent"
