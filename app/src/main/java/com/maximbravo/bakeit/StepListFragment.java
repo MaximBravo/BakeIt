@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,26 +56,22 @@ public class StepListFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_step_list, container, false);
 
-        final GridView gridView = (GridView) rootView.findViewById(R.id.steps_list_view);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.steps_list_view);
 
-        if(savedInstanceState != null) {
-            lastSelected = savedInstanceState.getInt("selectedPosition");
-            gridView.setSelection(lastSelected);
-            //unselectAllBut(gridView, lastSelected);
-        }
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        recyclerView.setLayoutManager(layoutManager);
 
         StepListAdapter stepListAdapter = new StepListAdapter(getActivity(), StepListActivity.getCurrentRecipe());
 
-        gridView.setAdapter(stepListAdapter);
+        recyclerView.setAdapter(stepListAdapter);
 
 
-        //add click listener
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                unselectAllBut(gridView, position);
-                lastSelected = position;
+            public void onClick(View v) {
 
+                int position = 2;
                 mCallback.onStepSelected(position-2);
             }
         });
@@ -95,4 +94,5 @@ public class StepListFragment extends Fragment {
             }
         }
     }
+
 }
