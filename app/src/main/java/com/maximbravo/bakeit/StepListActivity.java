@@ -23,7 +23,8 @@ public class StepListActivity extends AppCompatActivity implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_list);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         loadListFragment();
 
         Recipe current = BakingUtils.getRecipeAt(recipePosition);

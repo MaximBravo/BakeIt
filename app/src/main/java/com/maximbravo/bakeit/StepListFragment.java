@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Kids on 6/13/2017.
@@ -22,7 +23,7 @@ import android.widget.TextView;
 
 public class StepListFragment extends Fragment {
 
-    OnStepClickListener mCallback;
+    public static OnStepClickListener mCallback;
 
     public interface OnStepClickListener {
         void onStepSelected(int position);
@@ -58,7 +59,8 @@ public class StepListFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.steps_list_view);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -71,8 +73,8 @@ public class StepListFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                int position = 2;
-                mCallback.onStepSelected(position-2);
+//                int position = 2;
+//                mCallback.onStepSelected(position-2);
             }
         });
         return rootView;

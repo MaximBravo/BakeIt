@@ -34,7 +34,8 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
             ActionBar actionBar = getSupportActionBar();
             actionBar.hide();
         }
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         addFragment(BakingUtils.currentStep.getId());
 

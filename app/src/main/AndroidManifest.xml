@@ -16,8 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StepListActivity" />
-        <activity android:name=".StepActivity" />
+        <activity android:name=".StepListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecipesActivity"/>
+        </activity>
+
+        <activity android:name=".StepActivity" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StepListActivity"/>
+        </activity>
 
         <uses-permission android:name="android.permission.INTERNET" />
 
