@@ -15,12 +15,14 @@ class Step {
     private String shortDescription;
     private String description;
     private String videoURL;
+    private boolean video;
 
-    public Step(int id, String shortDescription, String description, String videoURL) {
+    public Step(int id, String shortDescription, String description, String videoURL, boolean isVideo) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoURL = videoURL;
+        this.video = isVideo;
     }
 
     public int getId() {
@@ -53,4 +55,6 @@ class Step {
     public String getVideoURL() {
         return videoURL;
     }
+
+    public boolean isVideo() { return video; }
 }

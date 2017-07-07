@@ -1,5 +1,7 @@
 package com.maximbravo.bakeit;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-public class RecipesActivity extends AppCompatActivity {
+import static android.R.attr.x;
+import static com.maximbravo.bakeit.BakingUtils.context;
 
+public class RecipesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,9 @@ public class RecipesActivity extends AppCompatActivity {
         } else {
             BakingUtils.twopanemode = false;
         }
+
+
+
     }
 
     private void initializeGridView() {
@@ -39,6 +46,14 @@ public class RecipesActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(RecipesActivity.this, StepListActivity.class);
                 BakingUtils.currentRecipe = BakingUtils.getRecipeAt(position);
+                Intent updateWidget = new Intent(context, BakeItWidget.class); // Widget.class is your widget class
+                updateWidget.setAction("update_widget");
+                PendingIntent pending = PendingIntent.getBroadcast(context, 0, updateWidget, PendingIntent.FLAG_CANCEL_CURRENT);
+                try {
+                    pending.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
                 StepListActivity.setCurrentPosition(position);
                 startActivity(intent);
 

@@ -9,10 +9,17 @@
 
     <com.jarvanmo.exoplayerview.ui.ExoVideoView
         android:id="@+id/playerView"
-        android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:useController="true"
         app:resizeMode="fit"/>
+    <ImageView
+        android:id="@+id/pictureView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp" />
 
 </LinearLayout>

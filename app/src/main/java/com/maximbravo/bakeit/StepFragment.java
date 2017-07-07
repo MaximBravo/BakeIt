@@ -7,11 +7,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView;
 import com.jarvanmo.exoplayerview.ui.ExoVideoView;
 import com.jarvanmo.exoplayerview.ui.SimpleMediaSource;
 import com.jarvanmo.exoplayerview.widget.SuperAspectRatioFrameLayout;
+import com.squareup.picasso.Picasso;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
@@ -80,7 +83,7 @@ public class StepFragment extends Fragment {
         if(!fullscreenmode) {
             TextView descriptionTextView = (TextView) rootView.findViewById(R.id.step_description);
             descriptionTextView.setText(currentStep.getDescription());
-
+            descriptionTextView.setMovementMethod(new ScrollingMovementMethod());
             if (!BakingUtils.twopanemode) {
                 TextView shortDescriptionTextView = (TextView) rootView.findViewById(R.id.step_short_description);
                 if (currentStep.getShortDescription().length() > 18) {
@@ -92,7 +95,7 @@ public class StepFragment extends Fragment {
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //release();
+
                         mCallbacks.onNextSelected();
                     }
                 });
@@ -101,8 +104,7 @@ public class StepFragment extends Fragment {
                 prev.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // initializePlayer(rootView, "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd9a6_2-mix-sugar-crackers-creampie/2-mix-sugar-crackers-creampie.mp4", "Little mouse");
-                        //release();
+
                         mCallbacks.onPrevSelected();
 
                     }
@@ -110,11 +112,23 @@ public class StepFragment extends Fragment {
 
             }
 
-
         }
 
         if(videoView == null) {
-            initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
+            if(currentStep.isVideo()) {
+                initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
+            } else if(!currentStep.getVideoURL().equals("") && !currentStep.getVideoURL().isEmpty() && currentStep.getVideoURL() != null) {
+                videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
+                videoView.setVisibility(View.GONE);
+
+                ImageView pictureView = (ImageView) rootView.findViewById(R.id.pictureView);
+                pictureView.setVisibility(View.VISIBLE);
+                System.out.println("Video URL is:" + currentStep.getVideoURL() + ":");
+                Picasso.with(getActivity()).load(currentStep.getVideoURL()).into(pictureView);
+            } else {
+                videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
+                videoView.setVisibility(View.GONE);
+            }
         }
 
         return rootView;
@@ -125,8 +139,8 @@ public class StepFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if(videoView != null) {
-            //release();
-            videoView.pause();
+            release();
+
         }
     }
 

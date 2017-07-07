@@ -1,6 +1,9 @@
 package com.maximbravo.bakeit;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 /**
@@ -19,12 +23,20 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 public class BakingUtils {
     public static Recipe currentRecipe;
     public static boolean twopanemode;
+    public static Context context;
     public static Step currentStep;
     public static ArrayList<Recipe> recipes = new ArrayList<>();
     public static ArrayList<Recipe> getRecipes(Context context){
         String json = getJsonString(context, "baking.json");
         fillDataFromJson(json);
         return recipes;
+    }
+
+    public static void setCurrentRecipe(Recipe currentRecipe) {
+        BakingUtils.currentRecipe = currentRecipe;
+
+
+
     }
 
     private static void fillDataFromJson(String json) {
@@ -55,10 +67,12 @@ public class BakingUtils {
                     String shortDescription = stepJson.getString("shortDescription");
                     String description = stepJson.getString("description");
                     String videoURL = stepJson.getString("videoURL");
-                    if(videoURL.length() == 0) {
+                    boolean video = true;
+                    if(videoURL.length() == 0 || videoURL.equals("")) {
                         videoURL = stepJson.getString("thumbnailURL");
+                        video = false;
                     }
-                    Step currentStep = new Step(id, shortDescription, description, videoURL);
+                    Step currentStep = new Step(id, shortDescription, description, videoURL, video);
                     steps.add(currentStep);
                 }
 
@@ -71,6 +85,7 @@ public class BakingUtils {
     }
 
     private static String getJsonString(Context context, String fileName) {
+        BakingUtils.context = context;
         String json = null;
         try {
             InputStream inputStream = context.getAssets().open(fileName);
@@ -94,7 +109,7 @@ public class BakingUtils {
 
     public static String getWidgetText() {
         if(recipes == null || recipes.size() == 0) {
-            return "Click here to go to BakeIt App";
+            return "You havent opened the app in a while come have a look. So that ingredients can show here";
         } else {
             Recipe widgetRecipe = currentRecipe;
             if (widgetRecipe == null) {

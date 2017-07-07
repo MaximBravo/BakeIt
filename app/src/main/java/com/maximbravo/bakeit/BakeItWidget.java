@@ -3,6 +3,7 @@ package com.maximbravo.bakeit;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.ImageView;
@@ -44,6 +45,27 @@ public class BakeItWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    @Override
+    public void onReceive(Context context, Intent i) {
+        if (i.getAction().equals("update_widget")) {
+            // Manual or automatic widget update started
+
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
+                    R.layout.bake_it_widget);
+
+            // Update text, images, whatever - here
+            Intent intent = new Intent(context, RecipesActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            remoteViews.setOnClickPendingIntent(R.id.ingredient_list, pendingIntent);
+            remoteViews.setTextViewText(R.id.ingredient_list, BakingUtils.getWidgetText());
+
+            // Trigger widget layout update
+            AppWidgetManager.getInstance(context).updateAppWidget(
+                    new ComponentName(context, BakeItWidget.class), remoteViews);
+        }
     }
 }
 
