@@ -1,87 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:com.jarvanmo.exoplayerview.ui="http://schemas.android.com/tools"
-    android:id="@+id/fragment_step"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:com.jarvanmo.exoplayerview.ui="http://schemas.android.com/tools">
 
-    <com.jarvanmo.exoplayerview.ui.ExoVideoView
-        android:id="@+id/playerView"
-        android:elevation="4dp"
+    <LinearLayout
+        android:id="@+id/fragment_step"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:useController="true"
-        app:resizeMode="fit"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_weight="6" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/pictureView"
-        android:visibility="gone"
-        android:elevation="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_weight="6" />
+        <com.jarvanmo.exoplayerview.ui.ExoVideoView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="6"
+            android:elevation="4dp"
+            app:resizeMode="fit"
+            app:useController="true" />
 
-    <TextView
-        android:id="@+id/step_short_description"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="2"
-        android:textSize="30dp"
-        android:text="Hello"
-        android:elevation="2dp"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@color/recipe_color"/>
-    <TextView
-        android:id="@+id/step_description"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textSize="25dp"
-        android:text="Example"
-        android:elevation="2dp"
-        android:scrollbars = "vertical"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/recipe_color"
-        android:layout_weight="4" />
+        <ImageView
+            android:id="@+id/pictureView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="6"
+            android:elevation="4dp"
+            android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/step_short_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"
+            android:background="@color/recipe_color"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="Hello"
+            android:textColor="@android:color/black"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/step_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="4"
+            android:background="@color/recipe_color"
+            android:elevation="2dp"
+            android:scrollbars="vertical"
+            android:text="Example"
+            android:textSize="25dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/prev_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/prevbutton" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/next_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/nextbutton" />
+        </RelativeLayout>
+
+    </LinearLayout>
     <RelativeLayout
+        android:id="@+id/loadingOverlay"
+        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="32dp">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/prev_fab"
+        android:layout_height="match_parent">
+        <View
+            android:background="@color/colorPrimaryTransparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <ProgressBar
+            android:id="@+id/pbProgess"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@xml/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/prevbutton" />
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/next_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:clickable="true"
-            app:fabSize="normal"
-            app:srcCompat="@drawable/nextbutton" />
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
-</LinearLayout>
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.maximbravo.bakeit;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_LANDSCAPE;
 import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_PORTRAIT;
 import static com.maximbravo.bakeit.BakingUtils.currentRecipe;
@@ -73,7 +76,6 @@ public class StepFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_step, container, false);
-
         if(getResources().getConfiguration().orientation == ORIENTATION_LANDSCAPE && !BakingUtils.twopanemode) {
             fullscreenmode = true;
         } else {
@@ -113,6 +115,13 @@ public class StepFragment extends Fragment {
             }
 
         }
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final View rootView = view;
 
         if(videoView == null) {
             if(currentStep.isVideo()) {
@@ -130,10 +139,7 @@ public class StepFragment extends Fragment {
                 videoView.setVisibility(View.GONE);
             }
         }
-
-        return rootView;
     }
-
 
     @Override
     public void onPause() {
@@ -153,6 +159,7 @@ public class StepFragment extends Fragment {
     }
 
 
+
     private void initializePlayer(View rootView, String videoURL, String displayName) {
         videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
         videoView.setResizeMode(SuperAspectRatioFrameLayout.RESIZE_MODE_FIT);
@@ -166,6 +173,8 @@ public class StepFragment extends Fragment {
         } else {
             videoView.setVisibility(View.GONE);
         }
+        RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.loadingOverlay);
+        relativeLayout.setVisibility(View.INVISIBLE);
     }
 
     private void release() {

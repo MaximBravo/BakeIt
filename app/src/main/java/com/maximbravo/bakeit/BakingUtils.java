@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +13,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
@@ -26,9 +31,7 @@ public class BakingUtils {
     public static Context context;
     public static Step currentStep;
     public static ArrayList<Recipe> recipes = new ArrayList<>();
-    public static ArrayList<Recipe> getRecipes(Context context){
-        String json = getJsonString(context, "baking.json");
-        fillDataFromJson(json);
+    public static ArrayList<Recipe> getRecipes(){
         return recipes;
     }
 
@@ -39,7 +42,7 @@ public class BakingUtils {
 
     }
 
-    private static void fillDataFromJson(String json) {
+    public static void fillDataFromJson(String json) {
         recipes.clear();
         try {
             JSONArray recipesArray = new JSONArray(json);
@@ -84,20 +87,28 @@ public class BakingUtils {
         }
     }
 
-    private static String getJsonString(Context context, String fileName) {
-        BakingUtils.context = context;
-        String json = null;
-        try {
-            InputStream inputStream = context.getAssets().open(fileName);
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return json;
+    public static String getJsonString(String url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+
+//        BakingUtils.context = context;
+//        String json = null;
+//        try {
+//            InputStream inputStream = context.getAssets().open(fileName);
+//            int size = inputStream.available();
+//            byte[] buffer = new byte[size];
+//            inputStream.read(buffer);
+//            inputStream.close();
+//            json = new String(buffer, "UTF-8");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return json;
     }
 
     public static Recipe getRecipeAt(int position) {

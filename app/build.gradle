@@ -34,6 +34,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
     compile 'com.squareup.picasso:picasso:2.3.+'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'

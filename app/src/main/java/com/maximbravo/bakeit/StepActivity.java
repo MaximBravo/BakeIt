@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -63,6 +65,8 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
     }
     @Override
     public void onNextSelected() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.loadingOverlay);
+        relativeLayout.setVisibility(View.VISIBLE);
         if(BakingUtils.currentStep.getId() == BakingUtils.currentRecipe.getSteps().size() - 1) {
             addFragment(0);
         } else {
@@ -72,6 +76,8 @@ public class StepActivity extends AppCompatActivity implements StepFragment.OnFa
 
     @Override
     public void onPrevSelected() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.loadingOverlay);
+        relativeLayout.setVisibility(View.VISIBLE);
         if(BakingUtils.currentStep.getId() == 0) {
             addFragment(BakingUtils.currentRecipe.getSteps().size() - 1);
         } else {
