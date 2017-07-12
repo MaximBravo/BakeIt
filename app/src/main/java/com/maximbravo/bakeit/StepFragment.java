@@ -138,6 +138,10 @@ public class StepFragment extends Fragment {
                 videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
                 videoView.setVisibility(View.GONE);
             }
+        } else {
+            SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getVideoURL());
+            mediaSource.setDisplayName(currentStep.getShortDescription());
+            videoView.play(mediaSource);
         }
     }
 
@@ -170,11 +174,14 @@ public class StepFragment extends Fragment {
 
             videoView.initSelfPlayer();
             videoView.play(mediaSource);
+            RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.loadingOverlay);
+            relativeLayout.setVisibility(View.INVISIBLE);
         } else {
             videoView.setVisibility(View.GONE);
+            RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.loadingOverlay);
+            relativeLayout.setVisibility(View.INVISIBLE);
         }
-        RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.loadingOverlay);
-        relativeLayout.setVisibility(View.INVISIBLE);
+
     }
 
     private void release() {

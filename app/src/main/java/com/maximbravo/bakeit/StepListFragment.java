@@ -69,14 +69,7 @@ public class StepListFragment extends Fragment {
         recyclerView.setAdapter(stepListAdapter);
 
 
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-//                int position = 2;
-//                mCallback.onStepSelected(position-2);
-            }
-        });
         return rootView;
     }
 

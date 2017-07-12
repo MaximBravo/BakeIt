@@ -1,45 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:com.jarvanmo.exoplayerview.ui="http://schemas.android.com/tools"
-    android:id="@+id/fragment_step"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jarvanmo.exoplayerview.ui.ExoVideoView
-        android:id="@+id/playerView"
-        android:layout_gravity="center"
-        android:elevation="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        app:useController="true"
-        app:resizeMode="fit"
-        android:layout_margin="20dp" />
-    <ImageView
-        android:id="@+id/pictureView"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:elevation="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:layout_margin="20dp" />
-
-    <TextView
-        android:id="@+id/step_description"
+    <LinearLayout
+        android:id="@+id/fragment_step"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="25dp"
-        android:text="Example"
-        android:scrollbars = "vertical"
-        android:elevation="2dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/recipe_color" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <com.jarvanmo.exoplayerview.ui.ExoVideoView
+            android:id="@+id/playerView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="2"
+            android:elevation="4dp"
+            app:resizeMode="fit"
+            app:useController="true" />
+
+        <ImageView
+            android:id="@+id/pictureView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:layout_weight="2"
+            android:elevation="4dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/step_description"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@color/recipe_color"
+            android:elevation="2dp"
+            android:scrollbars="vertical"
+            android:text="Example"
+            android:textSize="25dp" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryTransparent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Loading..."
+            android:textColor="@android:color/white"
+            android:textSize="40sp" />
+    </RelativeLayout>
+</RelativeLayout>

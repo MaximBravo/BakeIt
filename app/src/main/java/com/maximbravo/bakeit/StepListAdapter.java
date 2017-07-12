@@ -25,7 +25,7 @@ import static java.security.AccessController.getContext;
 public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepViewHolder> {
     private Context context;
     private ArrayList<Step> steps;
-
+    public static int lastSelected;
 
 
     public static class StepViewHolder extends RecyclerView.ViewHolder {
@@ -49,8 +49,10 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepVi
             stepItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (stepNumber.getVisibility() == View.VISIBLE) {
                         Log.e("SDJFLKSDJF", "Hello from position: " + stepNumber.getText().toString());
+                        StepListAdapter.lastSelected = Integer.parseInt(stepNumber.getText().toString());
                         StepListFragment.mCallback.onStepSelected(Integer.parseInt(stepNumber.getText().toString()));
                         stepItem.setBackgroundResource((R.color.selected_background));
                         BakingUtils.currentStep = currentRecipe.getSteps().get(Integer.parseInt(stepNumber.getText().toString()));
@@ -121,6 +123,10 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepVi
     @Override
     public void onBindViewHolder(StepViewHolder holder, int position) {
         Toast.makeText(context, "position bindViewHolder: " + position, Toast.LENGTH_SHORT).show();
+        int color = R.color.recipe_color;
+        if(position == lastSelected) {
+            color = R.color.selected_background;
+        }
         if(position == 0) {
             holder.stepName.setText(BakingUtils.currentRecipe.getRecipeName());
             String ingridientsString = "Ingredients\n";
@@ -130,6 +136,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepVi
             }
             holder.stepDescription.setText(ingridientsString);
             holder.stepNumber.setVisibility(View.GONE);
+            holder.stepItem.setBackgroundResource(R.color.recipe_color);
         } else {
             Step currentStep = steps.get(position-1);
             if (holder != null &&
@@ -141,6 +148,7 @@ public class StepListAdapter extends RecyclerView.Adapter<StepListAdapter.StepVi
                 holder.stepNumber.setText(String.valueOf(currentStep.getId()));
                 holder.stepName.setText(currentStep.getShortDescription());
                 holder.stepDescription.setText(currentStep.getDescription());
+                holder.stepItem.setBackgroundResource(R.color.recipe_color);
             }
             //holder.stepItem = currentStep.getView(context);
         }
