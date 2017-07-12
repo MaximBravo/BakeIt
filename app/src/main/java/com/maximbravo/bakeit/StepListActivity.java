@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import static com.maximbravo.bakeit.BakingUtils.context;
 
@@ -41,7 +42,7 @@ public class StepListActivity extends AppCompatActivity implements
 
     }
 
-
+    private StepFragment prevFragment;
     private boolean first = true;
     public void onStepSelected(int position) {
         if (position >= 0) {
@@ -61,10 +62,13 @@ public class StepListActivity extends AppCompatActivity implements
                             .add(R.id.step_container, stepFragment)
                             .commit();
                     first = false;
+                    prevFragment = stepFragment;
                 } else {
+                    prevFragment.getActivity().findViewById(R.id.loadingOverlay).setVisibility(View.VISIBLE);
                     fragmentManager.beginTransaction()
                             .replace(R.id.step_container, stepFragment)
                             .commit();
+                    prevFragment = stepFragment;
                 }
             } else {
 

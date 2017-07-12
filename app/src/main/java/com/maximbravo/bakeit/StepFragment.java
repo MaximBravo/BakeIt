@@ -81,7 +81,7 @@ public class StepFragment extends Fragment {
         } else {
             fullscreenmode = false;
         }
-
+        rootView.findViewById(R.id.loadingOverlay).setVisibility(View.VISIBLE);
         if(!fullscreenmode) {
             TextView descriptionTextView = (TextView) rootView.findViewById(R.id.step_description);
             descriptionTextView.setText(currentStep.getDescription());
@@ -124,6 +124,7 @@ public class StepFragment extends Fragment {
         final View rootView = view;
 
         if(videoView == null) {
+
             if(currentStep.isVideo()) {
                 initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
             } else if(!currentStep.getVideoURL().equals("") && !currentStep.getVideoURL().isEmpty() && currentStep.getVideoURL() != null) {
@@ -134,9 +135,11 @@ public class StepFragment extends Fragment {
                 pictureView.setVisibility(View.VISIBLE);
                 System.out.println("Video URL is:" + currentStep.getVideoURL() + ":");
                 Picasso.with(getActivity()).load(currentStep.getVideoURL()).into(pictureView);
+                rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
             } else {
                 videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
                 videoView.setVisibility(View.GONE);
+                rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
             }
         } else {
             SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getVideoURL());
