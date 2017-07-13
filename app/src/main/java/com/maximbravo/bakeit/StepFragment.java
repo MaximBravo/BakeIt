@@ -122,29 +122,32 @@ public class StepFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final View rootView = view;
+        //there is a url either video or picture
+        if(!currentStep.getVideoURL().equals("") && !currentStep.getVideoURL().isEmpty() && currentStep.getVideoURL() != null) {
+            //videoView actually needs to be initialized
+            if(videoView == null) {
+                //if the video url holds a video url
+                if (currentStep.isVideo()) {
+                    initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
+                } else { //video url is acturlly a picture
+                    videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
+                    videoView.setVisibility(View.GONE);
 
-        if(videoView == null) {
-
-            if(currentStep.isVideo()) {
-                initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
-            } else if(!currentStep.getVideoURL().equals("") && !currentStep.getVideoURL().isEmpty() && currentStep.getVideoURL() != null) {
-                videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
-                videoView.setVisibility(View.GONE);
-
-                ImageView pictureView = (ImageView) rootView.findViewById(R.id.pictureView);
-                pictureView.setVisibility(View.VISIBLE);
-                System.out.println("Video URL is:" + currentStep.getVideoURL() + ":");
-                Picasso.with(getActivity()).load(currentStep.getVideoURL()).into(pictureView);
-                rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
-            } else {
-                videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
-                videoView.setVisibility(View.GONE);
-                rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
+                    ImageView pictureView = (ImageView) rootView.findViewById(R.id.pictureView);
+                    pictureView.setVisibility(View.VISIBLE);
+                    System.out.println("Video URL is:" + currentStep.getVideoURL() + ":");
+                    Picasso.with(getActivity()).load(currentStep.getVideoURL()).into(pictureView);
+                    rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
+                }
+            } else {// video needs to be resumed
+                SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getVideoURL());
+                mediaSource.setDisplayName(currentStep.getShortDescription());
+                videoView.play(mediaSource);
             }
         } else {
-            SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getVideoURL());
-            mediaSource.setDisplayName(currentStep.getShortDescription());
-            videoView.play(mediaSource);
+            videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
+            videoView.setVisibility(View.GONE);
+            rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
         }
     }
 
