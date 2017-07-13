@@ -1,6 +1,8 @@
 package com.maximbravo.bakeit;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,25 +13,39 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+
 /**
  * Created by Kids on 6/12/2017.
  */
 
-public class RecipeAdapter extends BaseAdapter {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
     private Context context;
     private ArrayList<Recipe> recipes;
+
+    private ItemClickListener mClickListener;
     public RecipeAdapter(Context context, ArrayList<Recipe> recipes){
         this.context = context;
         this.recipes = recipes;
     }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
     @Override
-    public int getCount() {
-        return recipes.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recipe_list_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        System.out.println("onCreateViewholder");
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return recipes.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Recipe main = recipes.get(position);
+        holder.title.setText(main.getRecipeName());
+        holder.description.setText(main.getRecipeDescription());
+        System.out.println("onBindViewHolder: " + position);
     }
 
     @Override
@@ -38,7 +54,33 @@ public class RecipeAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return recipes.get(position).getView(context);
+    public int getItemCount() {
+        return recipes.size();
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView title;
+        public TextView description;
+        public View itemView;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            setItemView(itemView);
+        }
+        public void setItemView(View itemView) {
+            this.itemView = itemView;
+            this.itemView.setOnClickListener(this);
+            this.title = (TextView) itemView.findViewById(R.id.recipe_name);
+            this.description = (TextView) itemView.findViewById(R.id.recipe_description);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
     }
 }
