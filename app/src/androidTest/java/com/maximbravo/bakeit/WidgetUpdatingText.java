@@ -18,89 +18,62 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.pressMenuKey;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RecipesActivityTest2 {
+public class WidgetUpdatingText {
 
     @Rule
     public ActivityTestRule<RecipesActivity> mActivityTestRule = new ActivityTestRule<>(RecipesActivity.class);
 
     @Test
-    public void recipesActivityTest2() {
+    public void widgetUpdatingText() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ViewInteraction linearLayout = onView(
-                allOf(withId(R.id.recipe_card),
-                        childAtPosition(
-                                allOf(withId(R.id.recipes_list),
-                                        withParent(withId(android.R.id.content))),
-                                1),
-                        isDisplayed()));
-        linearLayout.perform(click());
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
         ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.steps_list_view), isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(3, click()));
+                allOf(withId(R.id.recipes_list), isDisplayed()));
+        recyclerView.perform(actionOnItemAtPosition(0, click()));
 
-        ViewInteraction recyclerView2 = onView(
-                allOf(withId(R.id.steps_list_view), isDisplayed()));
-        recyclerView2.perform(actionOnItemAtPosition(4, click()));
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.step_short_description), withText("Nutella Pie")));
+        textView.check(matches(withText("Nutella Pie")));
 
+        pressBack();
 
-        ViewInteraction recyclerView3 = onView(
-                allOf(withId(R.id.steps_list_view), isDisplayed()));
-        recyclerView3.perform(actionOnItemAtPosition(9, click()));
-
-        ViewInteraction recyclerView4 = onView(
-                allOf(withId(R.id.steps_list_view), isDisplayed()));
-        recyclerView4.perform(actionOnItemAtPosition(8, click()));
-
-        ViewInteraction linearLayout2 = onView(
-                allOf(withId(R.id.fragment_step),
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.ingredient_list), withText("Nutella Pie\n1) 2 CUP of Graham Cracker crumbs\n2) 6 TBLSP of unsalted butter, melted\n3) 0 CUP of granulated sugar\n4) 1 TSP of salt\n5) 5 TBLSP of vanilla\n6) 1 K of Nutella or other chocolate-hazelnut spread\n7) 500 G of Mascapone Cheese(room temperature)\n8) 1 CUP of heavy cream(cold)\n9) 4 OZ of cream cheese(softened)\n"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.step_container),
+                                        withContentDescription("BakeIt"),
                                         0),
                                 0),
                         isDisplayed()));
-        linearLayout2.check(matches(isDisplayed()));
+        textView2.check(matches(isDisplayed()));
 
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Navigate up"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
+        pressMenuKey();
 
-        ViewInteraction textView3 = onView(
-                allOf(withText("BakeIt"),
-                        childAtPosition(
-                                allOf(withId(R.id.action_bar),
-                                        childAtPosition(
-                                                withId(R.id.action_bar_container),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        textView3.check(matches(withText("BakeIt")));
+//        onView(withContentDescription("Overview")).perform(click());
+//        onView(withContentDescription("BakeIt")).perform(click());
+//        ViewInteraction recyclerView2 = onView(
+//                allOf(withId(R.id.recipes_list), isDisplayed()));
+//        recyclerView2.perform(actionOnItemAtPosition(1, click()));
+//
+//        ViewInteraction textView3 = onView(
+//                allOf(withId(R.id.ingredient_list)));
+//        textView3.check(matches(withText("Brownies 1) 350 G of Bittersweet chocolate (60-70% cacao) 2) 226 G of unsalted butter 3) 300 G of granulated sugar 4) 100 G of light brown sugar 5) 5 UNIT of large eggs 6) 1 TBLSP of vanilla extract 7) 140 G of all purpose flour 8) 40 G of cocoa powder 9) 1 TSP of salt 10) 350 G of semisweet chocolate chips ")));
 
     }
 
