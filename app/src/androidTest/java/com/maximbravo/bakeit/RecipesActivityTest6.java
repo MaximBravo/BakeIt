@@ -65,6 +65,7 @@ public class RecipesActivityTest6 {
                 allOf(withId(R.id.next_fab), isDisplayed()));
         floatingActionButton4.perform(click());
 
+
         ViewInteraction floatingActionButton5 = onView(
                 allOf(withId(R.id.next_fab), isDisplayed()));
         floatingActionButton5.perform(click());
