@@ -2,9 +2,7 @@ package com.maximbravo.bakeit;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,32 +10,16 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView;
 import com.jarvanmo.exoplayerview.ui.ExoVideoView;
 import com.jarvanmo.exoplayerview.ui.SimpleMediaSource;
 import com.jarvanmo.exoplayerview.widget.SuperAspectRatioFrameLayout;
 import com.squareup.picasso.Picasso;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_LANDSCAPE;
-import static com.jarvanmo.exoplayerview.ui.ExoVideoPlaybackControlView.SENSOR_PORTRAIT;
-import static com.maximbravo.bakeit.BakingUtils.currentRecipe;
 import static com.maximbravo.bakeit.BakingUtils.currentStep;
 
 /**
@@ -123,24 +105,39 @@ public class StepFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final View rootView = view;
         //there is a url either video or picture
-        if(!currentStep.getVideoURL().equals("") && !currentStep.getVideoURL().isEmpty() && currentStep.getVideoURL() != null) {
+        if(!currentStep.getUrl().equals("") && !currentStep.getUrl().isEmpty() && currentStep.getUrl() != null) {
             //videoView actually needs to be initialized
             if(videoView == null) {
                 //if the video url holds a video url
                 if (currentStep.isVideo()) {
-                    initializePlayer(rootView, currentStep.getVideoURL(), currentStep.getShortDescription());
+                    initializePlayer(rootView, currentStep.getUrl(), currentStep.getShortDescription());
                 } else { //video url is acturlly a picture
                     videoView = (ExoVideoView) rootView.findViewById(R.id.playerView);
                     videoView.setVisibility(View.GONE);
 
+                    /*
+                        Note:
+                        The reason that I am doing the url this way is because if there is a
+                        videoUrl and not a thumbnailUrl then it should load the video
+                        If there is no video url but there is thumbnail then we will load the thumbnail
+                        if there is not thumbnail or video than we load nothing. In the Step class
+                        we only have one field called url because when we get the data from the json
+                        will do the above explained logic and adjust the isVideo parameter. Is there
+                        anything wrong with this approach?
+
+                        Also I saw that in review #4 there was a comment in recipe_list_item.xml
+                        saying that i should add an ImageView there but it doesn't seem like the right
+                        place since I thought that we need to load the image for the actual step not
+                        the recipe item.
+                     */
                     ImageView pictureView = (ImageView) rootView.findViewById(R.id.pictureView);
                     pictureView.setVisibility(View.VISIBLE);
-                    System.out.println("Video URL is:" + currentStep.getVideoURL() + ":");
-                    Picasso.with(getActivity()).load(currentStep.getVideoURL()).into(pictureView);
+                    System.out.println("Video URL is:" + currentStep.getUrl() + ":");
+                    Picasso.with(getActivity()).load(currentStep.getUrl()).into(pictureView);
                     rootView.findViewById(R.id.loadingOverlay).setVisibility(View.INVISIBLE);
                 }
             } else {// video needs to be resumed
-                SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getVideoURL());
+                SimpleMediaSource mediaSource = new SimpleMediaSource(currentStep.getUrl());
                 mediaSource.setDisplayName(currentStep.getShortDescription());
                 videoView.play(mediaSource);
             }

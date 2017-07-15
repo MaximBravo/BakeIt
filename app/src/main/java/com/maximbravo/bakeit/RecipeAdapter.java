@@ -6,14 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
+import static com.maximbravo.bakeit.BakingUtils.currentStep;
+import static com.maximbravo.bakeit.R.id.pictureView;
 
 /**
  * Created by Kids on 6/12/2017.
@@ -45,6 +50,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         Recipe main = recipes.get(position);
         holder.title.setText(main.getRecipeName());
         holder.description.setText(main.getRecipeDescription());
+        if(!main.getImage().equals("") && main.getImage() != null) {
+            Picasso.with(context).load(main.getImage()).into(holder.image);
+        }
         System.out.println("onBindViewHolder: " + position);
     }
 
@@ -67,6 +75,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public TextView title;
         public TextView description;
         public View itemView;
+        public ImageView image;
         public ViewHolder(View itemView) {
             super(itemView);
             setItemView(itemView);
@@ -76,6 +85,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             this.itemView.setOnClickListener(this);
             this.title = (TextView) itemView.findViewById(R.id.recipe_name);
             this.description = (TextView) itemView.findViewById(R.id.recipe_description);
+            this.image = (ImageView) itemView.findViewById(R.id.picture);
         }
 
         @Override

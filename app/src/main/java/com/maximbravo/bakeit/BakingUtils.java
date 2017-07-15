@@ -50,7 +50,7 @@ public class BakingUtils {
                 JSONObject recipeJson = recipesArray.getJSONObject(i);
                 String recipeName = recipeJson.getString("name");
                 String recipeDescription = "Servings: " + recipeJson.getInt("servings");
-
+                String recipeImage = recipeJson.getString("image");
                 JSONArray ingredientsJson = recipeJson.getJSONArray("ingredients");
                 ArrayList<Ingredient> ingredients = new ArrayList<>();
                 for(int k = 0; k < ingredientsJson.length(); k++) {
@@ -71,6 +71,7 @@ public class BakingUtils {
                     String description = stepJson.getString("description");
                     String videoURL = stepJson.getString("videoURL");
                     boolean video = true;
+                    // Note: here is where we do the logic talked about in StepFragment
                     if(videoURL.length() == 0 || videoURL.equals("")) {
                         videoURL = stepJson.getString("thumbnailURL");
                         video = false;
@@ -79,7 +80,7 @@ public class BakingUtils {
                     steps.add(currentStep);
                 }
 
-                Recipe recipe = new Recipe(recipeName, recipeDescription, ingredients, steps);
+                Recipe recipe = new Recipe(recipeName, recipeDescription, ingredients, steps, recipeImage);
                 recipes.add(recipe);
             }
         } catch (JSONException e) {
@@ -113,7 +114,7 @@ public class BakingUtils {
 
     public static Recipe getRecipeAt(int position) {
         if(recipes.size() == 0) {
-            return new Recipe("ERROR", "nbc", null, null);
+            return new Recipe("ERROR", "nbc", null, null, null);
         }
         return recipes.get(position);
     }

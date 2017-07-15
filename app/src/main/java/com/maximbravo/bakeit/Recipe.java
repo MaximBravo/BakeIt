@@ -23,13 +23,15 @@ public class Recipe {
     private String recipeDescription;
     private ArrayList<Ingredient> ingredients;
     private ArrayList<Step> steps;
+    private String image;
 
     //dummy testing purposes
-    public Recipe(String name, String description, ArrayList<Ingredient> ingredients, ArrayList<Step> steps) {
+    public Recipe(String name, String description, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, String image) {
         this.recipeName = name;
         this.recipeDescription = description;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.image = image;
     }
 
     //returns a view that represents one Recipe
@@ -61,4 +63,6 @@ public class Recipe {
     public ArrayList<Step> getSteps() {
         return steps;
     }
+
+    public String getImage() {return image;}
 }
