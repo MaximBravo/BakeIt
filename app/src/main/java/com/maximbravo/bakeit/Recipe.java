@@ -18,7 +18,7 @@ import static android.R.attr.name;
  */
 
 public class Recipe {
-    public static boolean first = true;
+
     private String recipeName;
     private String recipeDescription;
     private ArrayList<Ingredient> ingredients;

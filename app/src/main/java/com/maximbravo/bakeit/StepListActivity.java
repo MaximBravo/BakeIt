@@ -29,7 +29,17 @@ public class StepListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_step_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        loadListFragment();
+        if(savedInstanceState == null) {
+            StepListFragment stepListFragment = new StepListFragment();
+//            Bundle b = new Bundle();
+//            b.putString("a", "Herro");
+//            stepListFragment.setArguments(b);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.steps_list_container, stepListFragment)
+                    .commit();
+        }
 
         Recipe current = BakingUtils.getRecipeAt(recipePosition);
         setTitle(current.getRecipeName());
@@ -81,22 +91,7 @@ public class StepListActivity extends AppCompatActivity implements
         }
     }
 
-    private void loadListFragment() {
-        StepListFragment stepListFragment = new StepListFragment();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        if(Recipe.first) {
-            fragmentManager.beginTransaction()
-                    .add(R.id.steps_list_container, stepListFragment)
-                    .commit();
-            Recipe.first = false;
-        } else {
-            fragmentManager.beginTransaction()
-                    .replace(R.id.steps_list_container, stepListFragment)
-                    .commit();
-        }
-    }
 
     public static Recipe getCurrentRecipe(){
         return BakingUtils.getRecipeAt(recipePosition);

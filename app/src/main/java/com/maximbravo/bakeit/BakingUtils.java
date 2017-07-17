@@ -29,6 +29,7 @@ public class BakingUtils {
     public static Recipe currentRecipe;
     public static boolean twopanemode;
     public static Context context;
+
     public static Step currentStep;
     public static ArrayList<Recipe> recipes = new ArrayList<>();
     public static ArrayList<Recipe> getRecipes(){
