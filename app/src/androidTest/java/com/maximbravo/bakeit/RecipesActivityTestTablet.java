@@ -107,6 +107,8 @@ public class RecipesActivityTestTablet {
                 return parent instanceof ViewGroup && parentMatcher.matches(parent)
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
+
+            
         };
     }
 }
